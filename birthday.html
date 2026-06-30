@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Hubby!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #fcf9f2;
+            --text-color: #3e332e;
+            --accent-color: #c99380;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Music Unlock Overlay Screen */
+        .audio-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fcf9f2;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        .audio-gate.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .gate-box {
+            text-align: center;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(62, 51, 46, 0.08);
+            border: 1px solid rgba(201, 147, 128, 0.3);
+            max-width: 400px;
+            width: 90%;
+        }
+        .gate-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #2b221e;
+            margin-bottom: 10px;
+        }
+        .gate-box p {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            margin-bottom: 25px;
+        }
+        .gate-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(201, 147, 128, 0.4);
+            transition: transform 0.2s;
+        }
+        .gate-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Floating Hearts Background Effect */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(201, 147, 128, 0.4);
+            font-size: 20px;
+            animation: floatUp 6s linear infinite;
+            bottom: -50px;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Music Floating Control */
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--accent-color);
+        }
+
+        /* Hero Header Section */
+        header {
+            text-align: center;
+            padding: 80px 20px 40px 20px;
+            background: linear-gradient(to bottom, #f5eedc, var(--bg-color));
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-style: italic;
+            margin-bottom: 10px;
+            color: #2b221e;
+        }
+
+        header p {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+        }
+
+        /* Scrapbook Story Layout */
+        .story-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Central Line decorative path */
+        .story-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: dashed rgba(62, 51, 46, 0.15);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .story-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            box-shadow: 0 15px 35px rgba(62, 51, 46, 0.06);
+            border: 1px solid rgba(201, 147, 128, 0.15);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .story-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .chapter-marker {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            background: #2b221e;
+            color: #fcf9f2;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+        }
+
+        /* Responsive Fixes */
+        @media(max-width: 600px) {
+            header h1 { font-size: 2.2rem; }
+            .story-container::before { display: none; }
+            .story-card { margin-bottom: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="audio-gate" id="gate">
+        <div class="gate-box">
+            <h2>Happy Birthday, My Love!</h2>
+            <p>I made something special for you...</p>
+            <button class="gate-btn" onclick="unlockSite()">Open Letter ❤️</button>
+        </div>
+    </div>
+
+    <div class="hearts-container" id="hearts"></div>
+
+    <div class="audio-player">
+        <span style="font-size: 18px;">🎵</span>
+        <audio id="bg-music" controls loop style="height: 30px; width: 200px;">
+            <source src="music.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <header>
+        <h1>Happy Birthday to My Answered Prayer</h1>
+        <p>The Story of Us... Chapter by Chapter</p>
+    </header>
+
+    <div class="story-container">
+
+        <div class="story-card" style="border: 2px solid var(--accent-color);">
+            <div class="chapter-marker" style="font-weight: bold;">Our Beautiful Journey</div>
+            <img src="0.jpg" alt="Our Beautiful Journey Start">
+        </div>
+
+        <div class="story-card">
+            <div class="chapter-marker">The Prologue</div>
+            <img src="1.jpeg" alt="Chapter 1">
+        </div>
+
+        <div class="story-card">
+            <div class="chapter-marker">Our Small Letter</div>
+            <img src="2.jpeg" alt="Favorite Person">
+        </div>
+
+        <div class="story-card">
+            <div class="chapter-marker">The Instagram Reel & The Keyboard</div>
+            <img src="3.jpeg" alt="Love of my life story">
+        </div>
+
+        <div class="story-card">
+            <div class="chapter-marker">Moving Forward</div>
+            <img src="4.jpeg" alt="Chapter two typewriter">
+        </div>
+
+        <div class="story-card">
+            <div class="chapter-marker">The Magic Text</div>
+            <img src="5.jpeg" alt="Welcome to chapter 2">
+        </div>
+
+        <div class="story-card">
+            <div class="chapter-marker">My Answered Prayer</div>
+            <img src="6.jpeg" alt="My Gem Sam">
+        </div>
+
+        <div class="story-card">
+            <div class="chapter-marker">What God Has Joined Together</div>
+            <img src="7.jpeg" alt="Answered prayer scripture">
+        </div>
+
+        <div class="story-card" style="border: 2px dashed var(--accent-color);">
+            <div class="chapter-marker" style="color: #d96666;">✨ Birthday Wish ✨</div>
+            <img src="8.jpeg" alt="Happy Birthday Favorite Person">
+        </div>
+
+        <div class="story-card" style="border: 2px dashed var(--accent-color);">
+            <div class="chapter-marker" style="color: #d96666;">✨ To My Hubby ✨</div>
+            <img src="9.jpeg" alt="Happiest Birthday Mine">
+        </div>
+
+        <div class="story-card">
+            <div class="chapter-marker">Forever & Always</div>
+            <img src="back.jpeg" alt="Holding hands walking together">
+        </div>
+
+    </div>
+
+    <footer>
+        Thanking God forever ungala ennaku kudathathuku. ❤️ I love you so much, Mamaa!
+    </footer>
+
+    <script>
+        function unlockSite() {
+            // Hide entry overlay screen smoothly
+            document.getElementById('gate').classList.add('hidden');
+            
+            // Play background music tracking browser audio state rules
+            const audio = document.getElementById('bg-music');
+            audio.play().catch(error => {
+                console.log("Audio playback interactive fallback executed safely:", error);
+            });
+        }
+
+        function createHeart() {
+            const container = document.getElementById('hearts');
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            container.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+</body>
+</html>
